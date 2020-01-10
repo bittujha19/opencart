@@ -10,19 +10,9 @@ RUN apt-get update -y \
    # && sed -i 's/newrelic.license = ""/newrelic.license = "LICENSE_KEY"/' /etc/php/7.1/fpm/conf.d/20-newrelic.ini  \
    # && sed -i 's/newrelic.appname = "PHP Application"/newrelic.appname = "APP_NAME"/g' /etc/php/7.1/fpm/conf.d/20-newrelic.ini
 
-#RUN git clone https://github.com/phpredis/phpredis.git && \
-#    cd phpredis && \
-#    git checkout develop && \
-#    phpize && \
-#    ./configure && \
-#    make && make install
 RUN pecl install -o -f redis \
 &&  rm -rf /tmp/pear \
 &&  docker-php-ext-enable redis
-## Redis Configuration
-#RUN echo "extension=redis.so" > /etc/php/7.1/mods-available/redis.ini && \
-#    ln -sf /etc/php/7.1/mods-available/redis.ini /etc/php/7.1/fpm/conf.d/20-redis.ini && \
-#    ln -sf /etc/php/7.1/mods-available/redis.ini /etc/php/7.1/cli/conf.d/20-redis.ini 
 
 # PHP_CPPFLAGS are used by the docker-php-ext-* scripts
 ENV PHP_CPPFLAGS="$PHP_CPPFLAGS -std=c++11"
